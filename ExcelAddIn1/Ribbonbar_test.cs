@@ -328,6 +328,7 @@ namespace ExcelAddIn1
             //// new code ended
 
             string nl = Environment.NewLine;
+            string del = "@#@";
             int maxRow = 0;
 
             foreach (Excel.Range c in target.Cells)
@@ -390,11 +391,11 @@ namespace ExcelAddIn1
                 {
 
                 }
-                String info = "Address: "+changedCell + "# " + nl +"Width: "+c.EntireColumn.Width +  "# " + nl + "Height: " + c.EntireRow.Height + "# " + nl + "Value: " +c.Value + "# " + nl + "Font Name: "+c.Font.Name + "# " + nl + "Font Size: "+c.Font.Size + "# " + nl +
-                    "BgColor: "+System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + "# " + nl + "Font Color: "+(Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + "# " + nl +
-                    "Italics: "+c.Font.Italic + "# " + nl + "Bold: "+c.Font.Bold + "# " + nl + "Underline: "+(Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline + "# " + nl +
-                    "Horizontal Alignment: "+(Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + "# " + nl + "Vertical Alignment: "+(Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment + "# " + nl +
-                    "Format: "+c.NumberFormat + "#" + nl + "Border: "+a + "       #  " + nl + " ";
+                String info = "Address: "+changedCell + del + nl +"Width: "+c.EntireColumn.Width +  del + nl + "Height: " + c.EntireRow.Height + del + nl + "Value: " +c.Value + del + nl + "Font Name: "+c.Font.Name + del + nl + "Font Size: "+c.Font.Size + del + nl +
+                    "BgColor: "+System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + del + nl + "Font Color: "+(Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + del + nl +
+                    "Italics: "+c.Font.Italic + del + nl + "Bold: "+c.Font.Bold + del + nl + "Underline: "+(Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline + del + nl +
+                    "Horizontal Alignment: "+(Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + del + nl + "Vertical Alignment: "+(Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment + del + nl +
+                    "Format: "+c.NumberFormat + del + nl + "Formula: " + c.Formula + del + nl + "Border: " + a + del + nl + " ";
 
                 String info1 = "Address: " + changedCell + nl + "Width: " + c.EntireColumn.Width + nl + "Height: " + c.EntireRow.Height + nl + "Value: " + c.Value + nl + "Font Name: " + c.Font.Name + nl + "Font Size: " + c.Font.Size + nl +
                     "BgColor: " + System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + nl + "Font Color: " + (Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + nl +
@@ -404,13 +405,13 @@ namespace ExcelAddIn1
 
                 String info2 = "[" + changedCell +"," + c.Value +"," + "Width: " + c.EntireColumn.Width + "," + "Height: " + c.EntireRow.Height + "," + c.Font.Name + "," + c.Font.Size +
                     "," + System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + "," + (Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color +
-                    "," + c.Font.Italic + "," + c.Font.Bold +"," + (Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline +
+                    "," + c.Font.Italic + "," + c.Font.Bold +"," + (Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline + 
                     "," + (Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + "," + (Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment +
                     "," + c.NumberFormat +"," + a + "]";
 
                 table.Rows[rowNo-1][str[1]] = info;
-                table1.Rows[rowNo - 1][str[1]] = info1;
-                table2.Rows[rowNo - 1][str[1]] = info2;
+                //table1.Rows[rowNo - 1][str[1]] = info1;
+                //table2.Rows[rowNo - 1][str[1]] = info2;
 
             }
 
@@ -438,8 +439,8 @@ namespace ExcelAddIn1
                 form.Text = "Cell Info";
                 form.Size = new System.Drawing.Size(900,600);
                 form.Controls.Add(grid);
-                form.Controls.Add(grid1);
-                form.Controls.Add(grid2);
+                //form.Controls.Add(grid1);
+                //form.Controls.Add(grid2);
 
                 //form.Controls.Add()
                 form.ShowDialog();
@@ -463,10 +464,11 @@ namespace ExcelAddIn1
         void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             string nl = Environment.NewLine;
+            string del = "@#@";
             if (e.Value != null && e.RowIndex > -1)
             {
                 string content = e.Value.ToString();
-                string[] line = content.Split('#');
+                string[] line = content.Split(new string[] { del }, StringSplitOptions.None);
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 sf.LineAlignment = StringAlignment.Center;
@@ -545,7 +547,7 @@ namespace ExcelAddIn1
                             case 13:
                                 e.Graphics.DrawString(line[i], e.CellStyle.Font, bfirebrick, rec, sf);
                                 break;
-                            case 14:
+                            default:
                                 e.Graphics.DrawString(line[i], e.CellStyle.Font, btomato, rec, sf);
                                 break;
                         }
