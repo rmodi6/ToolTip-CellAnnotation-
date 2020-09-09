@@ -29,7 +29,7 @@ namespace ExcelAddIn1
             Excel.Worksheet sheet = (Excel.Worksheet)sh;
 
             String cellResult = "";
-            cellResult = cellResult + "Address: \t"+ "Border Info: \t"  + "Font Name: \t" + "Style: \t" + "range formula: \t" + "\n";
+            cellResult = cellResult + "Address: \t" + "Border Info: \t" + "Font Name: \t" + "Style: \t" + "range formula: \t" + "\n";
 
             DataTable table = new DataTable();
             DataTable table1 = new DataTable();
@@ -328,15 +328,16 @@ namespace ExcelAddIn1
             //// new code ended
 
             string nl = Environment.NewLine;
+            string del = "@#@";
             int maxRow = 0;
 
             foreach (Excel.Range c in target.Cells)
             {
                 string changedCell = c.get_Address(Type.Missing, Type.Missing, Excel.XlReferenceStyle.xlA1, Type.Missing, Type.Missing);
                 string[] str = c.Address.Split('$');
-                int rowNo = Int32.Parse(str[2]);                
+                int rowNo = Int32.Parse(str[2]);
 
-                while(maxRow < rowNo)
+                while (maxRow < rowNo)
                 {
                     workRow = table.NewRow();
                     workRow1 = table1.NewRow();
@@ -347,13 +348,13 @@ namespace ExcelAddIn1
                     maxRow++;
                 }
 
-                            
+
                 string a = "";
                 try
                 {
                     if (c.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle != -4142)
                     {
-                        a = a + " " + "Right: "+(Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle+"-"+ (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeRight].Weight + ";";
+                        a = a + " " + "Right: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeRight].LineStyle + "-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeRight].Weight + ";";
                     }
                 }
                 catch (Exception)
@@ -363,7 +364,7 @@ namespace ExcelAddIn1
 
                 try
                 {
-                   if(c.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle!=-4142)
+                    if (c.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle != -4142)
                         a = a + " " + "Left: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeLeft].LineStyle + "-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeLeft].Weight + ";";
                 }
                 catch (Exception)
@@ -373,8 +374,8 @@ namespace ExcelAddIn1
 
                 try
                 {
-                    if(c.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle!=-4142)
-                        a = a + " " + "Bottom: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle+"-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight + ";";
+                    if (c.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle != -4142)
+                        a = a + " " + "Bottom: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle + "-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeBottom].Weight + ";";
                 }
                 catch (Exception)
                 {
@@ -383,18 +384,18 @@ namespace ExcelAddIn1
 
                 try
                 {
-                    if(c.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle!=-4142)
-                        a = a + " " + "Top: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle+"-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeTop].Weight;
+                    if (c.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle != -4142)
+                        a = a + " " + "Top: " + (Microsoft.Office.Interop.Excel.XlLineStyle)c.Borders[Excel.XlBordersIndex.xlEdgeTop].LineStyle + "-" + (Microsoft.Office.Interop.Excel.XlBorderWeight)c.Borders[Excel.XlBordersIndex.xlEdgeTop].Weight;
                 }
                 catch (Exception)
                 {
 
                 }
-                String info = "Address: "+changedCell + "# " + nl +"Width: "+c.EntireColumn.Width +  "# " + nl + "Height: " + c.EntireRow.Height + "# " + nl + "Value: " +c.Value + "# " + nl + "Font Name: "+c.Font.Name + "# " + nl + "Font Size: "+c.Font.Size + "# " + nl +
-                    "BgColor: "+System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + "# " + nl + "Font Color: "+(Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + "# " + nl +
-                    "Italics: "+c.Font.Italic + "# " + nl + "Bold: "+c.Font.Bold + "# " + nl + "Underline: "+(Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline + "# " + nl +
-                    "Horizontal Alignment: "+(Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + "# " + nl + "Vertical Alignment: "+(Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment + "# " + nl +
-                    "Format: "+c.NumberFormat + "#" + nl + "Border: "+a + "       #  " + nl + " ";
+                String info = "Address: " + changedCell + del + nl + "Width: " + c.EntireColumn.Width + del + nl + "Height: " + c.EntireRow.Height + del + nl + "Value: " + c.Value + del + nl + "Font Name: " + c.Font.Name + del + nl + "Font Size: " + c.Font.Size + del + nl +
+                    "BgColor: " + System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + del + nl + "Font Color: " + (Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + del + nl +
+                    "Italics: " + c.Font.Italic + del + nl + "Bold: " + c.Font.Bold + del + nl + "Underline: " + (Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline + del + nl +
+                    "Horizontal Alignment: " + (Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + del + nl + "Vertical Alignment: " + (Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment + del + nl +
+                    "Format: " + c.NumberFormat + del + nl + "Formula: " + c.Formula + del + nl + "Border: " + a + del + nl + " ";
 
                 String info1 = "Address: " + changedCell + nl + "Width: " + c.EntireColumn.Width + nl + "Height: " + c.EntireRow.Height + nl + "Value: " + c.Value + nl + "Font Name: " + c.Font.Name + nl + "Font Size: " + c.Font.Size + nl +
                     "BgColor: " + System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + nl + "Font Color: " + (Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color + nl +
@@ -402,15 +403,15 @@ namespace ExcelAddIn1
                     "Horizontal Alignment: " + (Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + nl + "Vertical Alignment: " + (Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment + nl +
                     "Format: " + c.NumberFormat + nl + "Border: " + a + nl + " ";
 
-                String info2 = "[" + changedCell +"," + c.Value +"," + "Width: " + c.EntireColumn.Width + "," + "Height: " + c.EntireRow.Height + "," + c.Font.Name + "," + c.Font.Size +
+                String info2 = "[" + changedCell + "," + c.Value + "," + "Width: " + c.EntireColumn.Width + "," + "Height: " + c.EntireRow.Height + "," + c.Font.Name + "," + c.Font.Size +
                     "," + System.Drawing.ColorTranslator.FromOle((int)((double)c.Interior.Color)) + "," + (Microsoft.Office.Interop.Excel.XlRgbColor)c.Font.Color +
-                    "," + c.Font.Italic + "," + c.Font.Bold +"," + (Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline +
+                    "," + c.Font.Italic + "," + c.Font.Bold + "," + (Microsoft.Office.Interop.Excel.XlUnderlineStyle)c.Font.Underline +
                     "," + (Microsoft.Office.Interop.Excel.XlHAlign)c.HorizontalAlignment + "," + (Microsoft.Office.Interop.Excel.XlVAlign)c.VerticalAlignment +
-                    "," + c.NumberFormat +"," + a + "]";
+                    "," + c.NumberFormat + "," + a + "]";
 
-                table.Rows[rowNo-1][str[1]] = info;
-                table1.Rows[rowNo - 1][str[1]] = info1;
-                table2.Rows[rowNo - 1][str[1]] = info2;
+                table.Rows[rowNo - 1][str[1]] = info;
+                //table1.Rows[rowNo - 1][str[1]] = info1;
+                //table2.Rows[rowNo - 1][str[1]] = info2;
 
             }
 
@@ -418,7 +419,7 @@ namespace ExcelAddIn1
             DataGridView grid1 = new DataGridView();
             DataGridView grid2 = new DataGridView();
 
-            grid.Size = new System.Drawing.Size(900,600);
+            grid.Size = new System.Drawing.Size(900, 600);
             grid.DataSource = table;
 
 
@@ -431,15 +432,15 @@ namespace ExcelAddIn1
             //grid1 = grid;
 
             grid.DataBindingComplete += new DataGridViewBindingCompleteEventHandler(dgv_DataBindingComplete);
-            
+
 
             using (Form form = new Form())
             {
                 form.Text = "Cell Info";
-                form.Size = new System.Drawing.Size(900,600);
+                form.Size = new System.Drawing.Size(900, 600);
                 form.Controls.Add(grid);
-                form.Controls.Add(grid1);
-                form.Controls.Add(grid2);
+                //form.Controls.Add(grid1);
+                //form.Controls.Add(grid2);
 
                 //form.Controls.Add()
                 form.ShowDialog();
@@ -455,22 +456,23 @@ namespace ExcelAddIn1
 
                 }
 
-            }  
+            }
         }
 
-        
+
 
         void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             string nl = Environment.NewLine;
+            string del = "@#@";
             if (e.Value != null && e.RowIndex > -1)
             {
                 string content = e.Value.ToString();
-                string[] line = content.Split('#');
+                string[] line = content.Split(new string[] { del }, StringSplitOptions.None);
                 StringFormat sf = new StringFormat();
                 sf.Alignment = StringAlignment.Center;
                 sf.LineAlignment = StringAlignment.Center;
-                
+
 
                 e.Paint(e.CellBounds, DataGridViewPaintParts.All & ~DataGridViewPaintParts.ContentForeground);
 
@@ -481,7 +483,7 @@ namespace ExcelAddIn1
                 }
 
                 RectangleF rec = new RectangleF(e.CellBounds.Location, new Size(0, 0));
-                SizeF lastSize = new SizeF(0,0);
+                SizeF lastSize = new SizeF(0, 0);
                 using (SolidBrush bblack = new SolidBrush(Color.Black), bred = new SolidBrush(Color.Red), borange = new SolidBrush(Color.DarkOrange),
                     bgreen = new SolidBrush(Color.Green), bblue = new SolidBrush(Color.Blue), bcyan = new SolidBrush(Color.Cyan),
                     bmagenta = new SolidBrush(Color.Magenta), bgold = new SolidBrush(Color.Gold), bnavy = new SolidBrush(Color.Navy),
@@ -492,22 +494,26 @@ namespace ExcelAddIn1
                     {
                         if (i > 1)
                         {
-                            lastSize = new SizeF(size[i-1].Width, e.CellBounds.Height );
+                            lastSize = new SizeF(size[i - 1].Width, e.CellBounds.Height);
                             rec = new RectangleF(new PointF(rec.Location.X + rec.Width - lastSize.Width, rec.Location.Y + 14), new SizeF(size[i].Width, e.CellBounds.Height));
-                        } else if (i==0)
+                        }
+                        else if (i == 0)
                         {
                             rec = new RectangleF(new PointF(rec.Location.X + rec.Width - lastSize.Width, rec.Location.Y - 100), new SizeF(size[i].Width, e.CellBounds.Height));
-                        } else
+                        }
+                        else
                         {
                             lastSize = new SizeF(size[i - 1].Width, e.CellBounds.Height);
                             rec = new RectangleF(new PointF(rec.Location.X + rec.Width - lastSize.Width, rec.Location.Y + 9), new SizeF(size[i].Width, e.CellBounds.Height));
                         }
 
-                        switch (i) {
-                            case 0: e.Graphics.DrawString(line[i], e.CellStyle.Font, bblack, rec, sf);
+                        switch (i)
+                        {
+                            case 0:
+                                e.Graphics.DrawString(line[i], e.CellStyle.Font, bblack, rec, sf);
                                 break;
                             case 1:
-                                e.Graphics.DrawString(line[i] , e.CellStyle.Font, bred, rec, sf);
+                                e.Graphics.DrawString(line[i], e.CellStyle.Font, bred, rec, sf);
                                 break;
                             case 2:
                                 e.Graphics.DrawString(line[i], e.CellStyle.Font, borange, rec, sf);
@@ -545,7 +551,7 @@ namespace ExcelAddIn1
                             case 13:
                                 e.Graphics.DrawString(line[i], e.CellStyle.Font, bfirebrick, rec, sf);
                                 break;
-                            case 14:
+                            default:
                                 e.Graphics.DrawString(line[i], e.CellStyle.Font, btomato, rec, sf);
                                 break;
                         }
@@ -560,7 +566,7 @@ namespace ExcelAddIn1
         private void dgv_DataBindingComplete(Object sender, DataGridViewBindingCompleteEventArgs e)
         {
             DataGridView dgv = (DataGridView)sender;
-            
+
             dgv.DefaultCellStyle.WrapMode = DataGridViewTriState.True;
             dgv.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
 
@@ -607,7 +613,7 @@ namespace ExcelAddIn1
                             if (transcationTableDataGridView.Rows[i].Cells[j].Value != null && !transcationTableDataGridView.Rows[i].Cells[j].Value.ToString().Equals(""))
                             {
                                 worksheet.Cells[i + 1, j + 1] = transcationTableDataGridView.Rows[i].Cells[j].Value.ToString();
-                                
+
                                 /*Excel.Range ColorMeMine= worksheet.Cells[i + 1, j + 1];
                                 int ind = -1,ptr=0,color;
                                 foreach (var index in transcationTableDataGridView.Rows[i].Cells[j].Value.ToString().findAll(Environment.NewLine))
@@ -704,7 +710,7 @@ namespace ExcelAddIn1
 
     }
 
-    }
+}
 
 public static class StringHelper
 {
